@@ -13,7 +13,7 @@
 				$_POST["size"]){
 				
 				$title = $_POST["title"];
-				$image = $_POST["image"];
+				
 				$isbn = $_POST["isbn"];
 				$short_description = $_POST["short_description"];
 				$publish_date = $_POST["publish_date"];
@@ -23,11 +23,24 @@
 				$publisher = $_POST["publisher"];
 				$address = $_POST["address"];
 				$size = $_POST["size"];
+				if(isset($_FILES['uploadFile']['name']) && !empty($_FILES['uploadFile']['name'])) {
+			        //Allowed file type
+			        $allowed_extensions = array("jpg","jpeg","png","gif");
+			         //File extension
+			        $ext = strtolower(pathinfo($_FILES['uploadFile']['name'], PATHINFO_EXTENSION));
+			    
+			        //Check extension
+			        if(in_array($ext, $allowed_extensions)) {
+			           //Convert image to base64
+			           $encoded_image = base64_encode(file_get_contents($_FILES['uploadFile']['tmp_name']));
+			           $encoded_image = 'data:image/' . $ext . ';base64,' . $encoded_image;
+			       }
+			   }
 
 				$newMedia = new Media(
 					$media_id,
 					$title, 
-					$image, 
+					$encoded_image, 
 					$isbn, 
 					$short_description,
 					$publish_date,

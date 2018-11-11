@@ -155,10 +155,10 @@ class Media {
 	public static function fetchFromDatabase($row_id){
 		//connect to database
 		include("dbconnect.php");
-		$connection = new Database();
+		//$connection = new Database();
 		$conn = $connection->connectDB();
 
-		//query for fetching the correct row from the database
+		/*//query for fetching the correct row from the database
 		$sql_select_one = "
 			SELECT * 
 			";
@@ -168,7 +168,19 @@ class Media {
 		$sql_select_one .= "
 			WHERE id = $row_id;
 			";
-		echo $sql_select_one;
+		
+
+		
+   		$resultset = mysqli_query($conn,$sql_select_one);
+		$result_array = $resultset->fetch_all(MYSQLI_ASSOC);
+		
+		//for testing issues
+		print_r($result_array);
+		
+
+		//close connection
+		mysqli_close($conn);	
+*/
 	}
 
 	public static function updateInDatabase($row_id){

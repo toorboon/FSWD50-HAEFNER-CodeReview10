@@ -41,12 +41,13 @@
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	        <form  action="action.php" method="POST" accept-charset="utf-8">
+	        <form  action="action.php" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
 					<div class="form-group">
 						<input hidden class="form-control" type="text" name="id" placeholder="ID"
 						<?php 
 							if(isset($_GET['update'])){
 								$row_id = $_GET['id'] ?? null;
+								include("media.php");
 								$fetched_data = Media::fetchFromDatabase($row_id);
 							}
 						 ?>
@@ -57,8 +58,8 @@
 						<input class="form-control" type="text" name="title" placeholder="Title" value="Die Reisen des John Doe">
 					</div>
 					<div class="form-group">
-						<label>Image</label>
-						<input class="form-control" type="text" name="image" placeholder="Image" value="img/no.svg">
+						<label>Upload Image</label>
+						<input class="d-block" type="file" name="uploadFile"value="">
 					</div>
 					<div class="form-group">
 						<label>ISBN</label>
@@ -76,16 +77,16 @@
 
 						<div class="inline">
 							<select class="custom-select form-control" name="type" required>
-								<option value="" selected disabled>Choose type</option>
-								<option value="Book">Book</option>
+								<option value=""  disabled>Choose type</option>
+								<option value="Book" selected>Book</option>
 								<option value="CD">CD</option>
 								<option value="DVD">DVD</option>
 							</select>
 						</div>
 						<div class="inline">
 							<select class="custom-select form-control" name="status" required>
-								<option value="" selected disabled>Choose status</option>
-								<option value="available">available</option>
+								<option value=""  disabled>Choose status</option>
+								<option value="available" selected>available</option>
 								<option value="rented">rented</option>
 							</select>
 						</div>
@@ -104,8 +105,8 @@
 					</div>
 					<div class="form-group">
 						<select class="custom-select form-control" name="size" required>
-							<option value="" selected disabled>Choose size</option>
-							<option value="Large">Large</option>
+							<option value=""  disabled>Choose size</option>
+							<option value="Large" selected>Large</option>
 							<option value="Medium">Medium</option>
 							<option value="Small">Small</option>
 						</select>
