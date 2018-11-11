@@ -37,8 +37,12 @@ class Media {
 		
 		//connect to database
 		include("dbconnect.php");
-		$connection = new Database();
-		$conn = $connection->connectDB();
+		if (!$connection){
+			$connection = new Database();
+			$conn = $connection->connectDB();
+		} else {
+			$conn = $connection->connectDB();
+		}
 
 		//query for writing into the database
 		$sql_insert1 = "INSERT INTO media (
@@ -112,9 +116,12 @@ class Media {
 	public static function deleteInDatabase($row_id){
 		//connect to database
 		include("dbconnect.php");
-		$connection = new Database();
-		$conn = $connection->connectDB();
-		
+		if (!$connection){
+			$connection = new Database();
+			$conn = $connection->connectDB();
+		} else {
+			$conn = $connection->connectDB();
+		}		
 
 		//query for writing into the database
 		$sql_delete = "
@@ -155,8 +162,12 @@ class Media {
 	public static function fetchFromDatabase($row_id){
 		//connect to database
 		include("dbconnect.php");
-		//$connection = new Database();
-		$conn = $connection->connectDB();
+		if (!$connection){
+			$connection = new Database();
+			$conn = $connection->connectDB();
+		} else {
+			$conn = $connection->connectDB();
+		}
 
 		/*//query for fetching the correct row from the database
 		$sql_select_one = "
@@ -184,7 +195,7 @@ class Media {
 	}
 
 	public static function updateInDatabase($row_id){
-		//connect to database
+		/*//connect to database
 		include("dbconnect.php");
 		$connection = new Database();
 		$conn = $connection->connectDB();
@@ -217,7 +228,7 @@ class Media {
 		}
 
 		//close connection
-		mysqli_close($conn);	
+		mysqli_close($conn);*/	
 	}
 }
 ?>
