@@ -1,4 +1,6 @@
 <?php 
+	
+	
 	class Database {
 	//server credentials
 		public $servername = "localhost";
@@ -25,6 +27,10 @@
 		} 
 	
 	return $conn;
+	}
+	
+	public function closeDB(){
+		mysqli_close($conn);
 	}
 
 }

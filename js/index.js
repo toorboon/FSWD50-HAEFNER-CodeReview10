@@ -1,26 +1,44 @@
 $(document).ready(function(){
-	/*
+	
 //on init
-	//hides the register_form
-	$('#form').submit(function(){
-		$('#form_container').fadeToggle();
+	//set the search string to '' in the beginning, so we see the whole list
+	txt = '';
+    $('#result').html('');
+        $.ajax({
+          url:"includes/fetch.inc.php",
+          method: "post",
+          data:{search:txt},
+          dataType:"text",
+          success:function(data)
 
-	});
-	//renders the table
-	showtable();
+          {
+            $('#result').html(data);
+          }
+        });
+
+    $('#search_text').keyup(function(){
+      var txt = $(this).val();
+        $('#result').html('');
+        $.ajax({
+          url:"includes/fetch.inc.php",
+          method: "post",
+          data:{search:txt},
+          dataType:"text",
+          success:function(data)
+
+          {
+            $('#result').html(data);
+          }
+        });
+      
+    });
 
 //set event_listeners
-	//on button create new media
-	$('#register_button').on('click',function(){
-			
-			$('#form_container').fadeToggle();
+	//on button close for the modals reload the page! 
+	$('.close_button').on('click', function(){
+		console.log('in close_edit');
+		window.location.replace('index.php');
 	});
 
-//function section
-	function showtable(){
-		console.log('in showtable')
-			//var php_code = "<?php include('show.php');$new_session1 = new Content();call_user_func('showContent');?>";
-			//document.getElementById('main_table').innerHTML = php_code;
-	}
-*/
+
 });

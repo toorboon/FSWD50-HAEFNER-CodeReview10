@@ -1,19 +1,25 @@
 <?php 
-		
-		include("media.php");
+	session_start();
+	if (!(isset($_SESSION['userId']))){
+		header("Location: ../index.php");
+	}	
+
+		include("dbconnect.inc.php");
+		include("media.inc.php");
+
 		
 		if(isset($_POST["submit"])){
 			if ($_POST["title"] && 
 				$_POST["isbn"] && 
 				$_POST["publish_date"] && 
 				$_POST["type"] &&
-				$_POST["status"] &&
+				$_POST["status"] /*&&
 				$_POST["author"] &&
 				$_POST["publisher"] &&
-				$_POST["size"]){
+				$_POST["size"]*/){
 				
+				$media_id = $_POST["id"];
 				$title = $_POST["title"];
-				
 				$isbn = $_POST["isbn"];
 				$short_description = $_POST["short_description"];
 				$publish_date = $_POST["publish_date"];
@@ -34,8 +40,10 @@
 			           //Convert image to base64
 			           $encoded_image = base64_encode(file_get_contents($_FILES['uploadFile']['tmp_name']));
 			           $encoded_image = 'data:image/' . $ext . ';base64,' . $encoded_image;
-			       }
-			   }
+			       	}
+			   	}else{
+			   	$encoded_image = $_POST["uploadFile"];
+			   	}
 
 				$newMedia = new Media(
 					$media_id,
@@ -51,8 +59,12 @@
 					$address,
 					$size
 					);
-				
-				$newMedia->writeDatabase();
+
+				if(!$media_id){
+						$newMedia->writeDatabase();
+				} else {
+						$newMedia->updateInDatabase();
+				}
 			}
 		}
 
