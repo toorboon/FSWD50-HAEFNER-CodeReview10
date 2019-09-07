@@ -11,7 +11,7 @@
 		  		$('#register_book_form').modal('show')
 		  		})
 		  	</script>";
-			$new_session = Media::fetchFromDatabase($row_id);
+			$new_session = Media::fetchMedia($row_id);
 		}
 			// print_r($new_session);
 			$media_id = $new_session[0]["id"] ?? NULL;
@@ -22,10 +22,10 @@
 			$publish_date = $new_session[0]["publish_date"] ?? "2018-11-09";
 			$type = $new_session[0]["type"] ?? NULL;
 			$status = $new_session[0]["status"] ?? NULL;
-			$author = $new_session[0]["author"] ?? "Horst Peter";
-			$publisher = $new_session[0]["publisher"] ?? "Horst Wald Verlag";
-			$address = $new_session[0]["address"] ?? "Horstgasse 1, 1210, Wien";
-			$size = $new_session[0]["size"] ?? NULL;
+			$author_id = $new_session[0]["author_id"] ?? 'Test me';
+			$publisher_id = $new_session[0]["publisher_id"];
+			// $address = $new_session[0]["address"] ?? "Horstgasse 1, 1210, Wien";
+			// $size = $new_session[0]["size"] ?? NULL;
 			
 ?>
 
@@ -51,7 +51,11 @@
 					</div>
 					<div class="form-group">
 						<label>Upload Image</label>
-						<input class="d-block" type="file" name="uploadFile"value="<?php echo $image; ?>">
+						
+						<input class="d-block" type="file" name="uploadFile" value="" alt="">
+						<img class="media_photo" src="<?php echo $image; ?>" alt="">
+						<label>Delete Image</label>
+						<input  type="checkbox" name="delete_image" value="delete">
 					</div>
 					<div class="form-group">
 						<label>ISBN</label>
@@ -76,33 +80,38 @@
 							</select>
 						</div>
 						<div class="inline">
-							<select class="custom-select form-control" name="status" required value="<?php echo $status; ?>">
+							<select class="custom-select form-control" name="status" required value="">
 								<option value=""  disabled>Choose status</option>
-								<option value="available" selected>available</option>
-								<option value="rented">rented</option>
+								<option value="available" <?php if($status=='available'){echo"selected";} ?>>available</option>
+								<option value="booked" <?php if($status=='booked'){echo"selected";} ?>>booked</option>
 							</select>
 						</div>
 					</div>
-					<div class="form-group" <?php if($media_id){echo"hidden";} ?>>
+					<div class="form-group">
+						<?php echo $author_id; ?>
 						<label>Author</label>
-						<input class="form-control" type="text" name="author" placeholder="Author" value="<?php echo $author; ?>">
+						<select id="author" class="custom-select form-control" name="author" required value='<?php echo $author_id; ?>'>
+						<!-- options will be inserted via Ajax Call -->
+						</select>
 					</div>
-					<div class="form-group" <?php if($media_id){echo"hidden";} ?>>
+					<div class="form-group">
 						<label>Publisher</label>
-						<input class="form-control" type="text" name="publisher" placeholder="Publisher" value="<?php echo $publisher; ?>">
+						<select id="publisher" class="custom-select form-control" name="publisher" required>
+						<!-- options will be inserted via Ajax Call -->	
+						</select>
 					</div>
-					<div class="form-group" <?php if($media_id){echo"hidden";} ?>>
+					<!-- <div class="form-group" <?php// if($media_id){echo"hidden";} ?>>
 						<label>Publisher Address</label>
-						<input class="form-control" type="text" name="address" placeholder="Publisher Address" value="<?php echo $address; ?>">
+						<input class="form-control" type="text" name="address" placeholder="Publisher Address" value="<?php// echo $address; ?>">
 					</div>
-					<div class="form-group" <?php if($media_id){echo"hidden";} ?>>
-						<select class="custom-select form-control" name="size" required value="<?php echo $size; ?>">
+					<div class="form-group" <?php// if($media_id){echo"hidden";} ?>>
+						<select class="custom-select form-control" name="size" required value="<?php// echo $size; ?>">
 							<option value=""  disabled>Choose size</option>
 							<option value="Large" selected>Large</option>
 							<option value="Medium">Medium</option>
 							<option value="Small">Small</option>
 						</select>
-					</div>
+					</div> -->
 					<div class="d-flex justify-content-center btn-group">
 						<button type="button" class="btn btn-danger close_button" data-dismiss="modal">Close</button>
 						<input class="btn btn-success" type="submit" name="submit" value="<?php if($media_id){echo"Update";} else {echo"Insert";}?>" id="btn">

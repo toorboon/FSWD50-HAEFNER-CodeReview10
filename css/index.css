@@ -9,6 +9,11 @@ body {
   background-size: cover;
   background-repeat: no-repeat; }
 
+.jumbotron {
+  background-image: linear-gradient(#f0e1d2, rgba(240, 225, 210, 0.7)), url("../img/library.jpg");
+  background-size: cover;
+  background-position: center center; }
+
 .bg-site-greennav {
   background-image: linear-gradient(rgba(230, 204, 179, 0.6), rgba(255, 255, 255, 0.9)); }
 

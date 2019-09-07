@@ -18,8 +18,8 @@
 							<td>Type</td>
 							<td>Author</td>
 							<td>Publisher</td>
-							<td>Address</td>
-							<td>Size</td>
+							<?php if (isset($_SESSION['admin'])) {echo'<td>Address</td>';}?>
+							<?php if (isset($_SESSION['admin'])) {echo'<td>Size</td>';}?>
 							<td>Status</td>
 						</tr>
 					</thead>

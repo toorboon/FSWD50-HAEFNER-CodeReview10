@@ -1,6 +1,6 @@
 <?php 
-session_start();
-	if (!(isset($_SESSION['userId']))){
+
+	if (!(isset($_SESSION['admin']))){
 		header("Location: ../index.php");
 	}
 	
@@ -16,12 +16,9 @@ class Media {
 	public $status;
 	public $author;
 	public $publisher;
-	public $address;
-	public $size;
 	
-
 	//create an object of the type media
-	function __construct($media_id = null, $title, $image = null, $isbn, $short_description = null, $publish_date, $type, $status = 'available', $author = null, $publisher = null, $address = null, $size = null){
+	function __construct($media_id = null, $title, $image = null, $isbn, $short_description = null, $publish_date, $type, $status = 'available', $author = null, $publisher = null){
 		
 		$this->media_id = $media_id;
 		$this->title = $title;
@@ -33,11 +30,9 @@ class Media {
 		$this->status = $status;
 		$this->author = $author;
 		$this->publisher = $publisher;
-		$this->address = $address;
-		$this->size = $size;
 	}
 
-	public function writeDatabase(){
+	public function writeMedia(){
 		
 		//connect the database
 		//include("dbconnect.php");
@@ -50,36 +45,6 @@ class Media {
 		}
 
 		//query for writing into the database
-		$sql_insert_author = "INSERT INTO author (
-			name
-		)";
-
-		$sql_insert_author .= " VALUES (
-			'$this->author'
-		);";
-
-		if ($conn->query($sql_insert_author) === TRUE) {
-		    $last_author_id = $conn->insert_id;
-		    echo "New author created successfully."; 
-		}
-
-		$sql_insert_publisher = "INSERT INTO publisher (
-			name,
-			address,
-			size 
-		)";
-
-		$sql_insert_publisher .= " VALUES (
-			'$this->publisher',
-			'$this->address',
-			'$this->size'
-		);";
-
-		if ($conn->query($sql_insert_publisher) === TRUE) {
-		    $last_publisher_id = $conn->insert_id;
-		    echo "New publisher created successfully."; 
-		}
-
 		$sql_insert_media = "INSERT INTO media (
 			title, 
 			image, 
@@ -100,20 +65,9 @@ class Media {
 			'$this->publish_date',
 			'$this->type',
 			'$this->status',
-			$last_author_id,
-			$last_publisher_id
+			'$this->author',
+			'$this->publisher'
 		);";
-		
-		/*//for testing issues FUCK XAMPP
-		echo $sql_insert.'<br>';
-		echo $sql_insert2.'<br>';
-		echo $this->title.'<br>';
-		echo $this->image.'<br>';
-		echo $this->isbn.'<br>';
-		echo $this->short_description.'<br>';
-		echo $this->publish_date.'<br>';
-		echo $this->type.'<br>';
-		echo $this->author.'<br>';*/
 		
 		if (mysqli_query($conn, $sql_insert_media)) {
 	   		header("location:../index.php?msg=Record Inserted Sucessfully");
@@ -126,7 +80,7 @@ class Media {
 		mysqli_close($conn);	
 	}
 
-	public static function deleteInDatabase($row_id){
+	public static function deleteMedia($row_id){
 		//connect the database
 		//include("dbconnect.php");
 		if ($connection){
@@ -145,22 +99,6 @@ class Media {
 			WHERE id = $row_id
 			;";	
 
-		/*$sql_delete .= "
-			DELETE FROM author 
-			";
-
-		$sql_delete .= "
-			WHERE media_id = $row_id
-			;";	
-
-		$sql_delete .= "
-			DELETE FROM media 
-			";
-
-		$sql_delete .= "
-			WHERE id = $row_id
-			; ";*/
-
 		if (mysqli_query($conn, $sql_delete)) {
 	   		header("location:../index.php?msg=Record Deleted Sucessfully");
 	   		sleep(1); //this is necessary to keep the refresh from refreshing BEFORE the database is done with deleting
@@ -172,7 +110,7 @@ class Media {
 		mysqli_close($conn);	
 	}
 
-	public static function fetchFromDatabase($row_id){
+	public static function fetchMedia($row_id){
 		//connect the database
 		//require("dbconnect.php");
 		$connection = $connection ?? null;
@@ -205,7 +143,7 @@ class Media {
 
 	}
 
-	public function updateInDatabase(){
+	public function updateMedia(){
 		//connect the database
 		$connection = $connection ?? null;
 		if ($connection){
@@ -215,21 +153,19 @@ class Media {
 			$conn = $connection->connectDB();
 		}
 
-		/*echo $this->title.'<br>';
-		echo $this->image.'<br>';
-		echo $this->isbn.'<br>';
-		echo $this->short_description.'<br>';
-		echo $this->publish_date.'<br>';
-		echo $this->type.'<br>';*/
-
 		//query for writing into the database
+		if (!($this->image)) {
+			$image_condition = '';
+		} else {
+			$image_condition = "image = '$this->image',";
+		}
 		$sql_update = "
 			UPDATE media 
 			";
 
 		$sql_update .= "
 			SET	title = '$this->title',
-				image = '$this->image',
+				".$image_condition."
 				isbn = '$this->isbn',
 				short_description = '$this->short_description',
 				publish_date = '$this->publish_date',
@@ -241,12 +177,12 @@ class Media {
 			WHERE id = $this->media_id;
 			";	
 
-		// echo "<br>".$sql_update."<br>";
+		//echo "<br>".$sql_update."<br>";
 
 		if (mysqli_query($conn, $sql_update)) {
 	   		header("location:../index.php?msg=Record Updated Sucessfully");
 		} else {
-	  		echo "Error deleting data: " . mysqli_error($connection);
+	  		echo "Error Updating data: " . mysqli_error($connection);
 		}
 
 		//close connection

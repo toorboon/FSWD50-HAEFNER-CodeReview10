@@ -12,6 +12,7 @@
 		 		<?php 
 		 		$name = '';
 		 		$email = '';
+		 		$category = 'user';
 
 		 		if (isset($_GET['error'])){
 		 			echo "<script>
@@ -27,6 +28,7 @@
 		 				if (isset($_GET['mail'])){
 		 					$email = $_GET['mail'];
 		 				}
+		 				$category = $_GET['cat'];
 
 		 			} else if ($_GET['error'] == "invalidmailuid"){
 		 				echo "<p class='mx-auto mt-2 text-danger'>E-Mail and Username was wrong!</p>";	
@@ -36,12 +38,14 @@
 		 				if (isset($_GET['mail'])){
 		 					$email = $_GET['mail'];
 		 				}
+		 				$category = $_GET['cat'];
 
 		 			} else if ($_GET['error'] == "invalidmail"){
 		 				echo "<p class='mx-auto mt-2 text-danger'>Invalid E-Mail</p>";
 		 				if (isset($_GET['uid'])){
 		 					$name = $_GET['uid'];
 		 				}
+		 				$category = $_GET['cat'];
 
 		 			} else if ($_GET['error'] == "passwordcheck"){
 		 				echo "<p class='mx-auto mt-2 text-danger'>Your passwords do not match!</p>";
@@ -51,18 +55,21 @@
 		 				if (isset($_GET['mail'])){
 		 					$email = $_GET['mail'];
 		 				}
+		 				$category = $_GET['cat'];
 
 		 			} else if ($_GET['error'] == "usertaken"){
 		 				echo "<p class='mx-auto mt-2 text-danger'>Username is already taken!</p>";
 		 				if (isset($_GET['mail'])){
 		 					$email = $_GET['mail']; 
 		 				}
+		 				$category = $_GET['cat'];
 		 			}
 		 		} else if (isset($_GET['signup'])){
 		 			if ($_GET['signup'] == "success"){
 		 			echo '<script>swal("Well Done!", "You sucessfully signed up!", "success");</script>';
 		 			}
 		 		}
+
 		 		?>
 
 	 		<div class="modal-body">
@@ -78,6 +85,12 @@
 		 			</div>
 		 			<div class="form-group">
 		 				<input class="form-control" type="password" name="pwd-repeat" placeholder="Repeat Password">
+		 			</div>
+		 			<div class="form-group">
+		 				<select class="custom-select form-control" name="category">
+		 					<option value="user">User</option>
+		 					<option value="admin" <?php if($category == 'admin'){echo 'selected';} ?>>Admin</option>
+		 				</select>
 		 			</div>
 		 			<div class="d-flex justify-content-center btn-group">
 						<button type="button" class="btn btn-danger close_button" data-dismiss="modal">Close</button>

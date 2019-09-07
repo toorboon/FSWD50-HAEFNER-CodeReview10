@@ -1,6 +1,6 @@
 <?php 
 	session_start();
-	if (!(isset($_SESSION['userId']))){
+	if (!(isset($_SESSION['admin']))){
 		header("Location: ../index.php");
 	}	
 
@@ -25,10 +25,10 @@
 				$publish_date = $_POST["publish_date"];
 				$type = $_POST["type"];
 				$status = $_POST["status"];
-				$author = $_POST["author"];
-				$publisher = $_POST["publisher"];
-				$address = $_POST["address"];
-				$size = $_POST["size"];
+				$author_id = $_POST["author"];
+				$publisher_id = $_POST["publisher"];
+				// $address = $_POST["address"];
+				// $size = $_POST["size"];
 				if(isset($_FILES['uploadFile']['name']) && !empty($_FILES['uploadFile']['name'])) {
 			        //Allowed file type
 			        $allowed_extensions = array("jpg","jpeg","png","gif");
@@ -54,16 +54,16 @@
 					$publish_date,
 					$type,
 					$status,
-					$author,
-					$publisher,
-					$address,
-					$size
+					$author_id,
+					$publisher_id
+					// $address,
+					// $size
 					);
 
 				if(!$media_id){
-						$newMedia->writeDatabase();
+						$newMedia->writeMedia();
 				} else {
-						$newMedia->updateInDatabase();
+						$newMedia->updateMedia();
 				}
 			}
 		}
@@ -72,8 +72,8 @@
 			$temp = $_GET['delete'];
 			$row_id = $_GET['id'];
 			if($temp==1){
-				//$newDeleteRow = new Media();
-				Media::deleteInDatabase($row_id);
+				
+				Media::deleteMedia($row_id);
 			}
 		}
 		
