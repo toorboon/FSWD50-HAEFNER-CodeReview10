@@ -55,10 +55,10 @@
 		";
 
 		$sql_select .= "
-			FROM media m
-				left join author a
+			FROM library_media m
+				left join library_author a
 				on a.id = m.author_id
-				left join publisher p
+				left join library_publisher p
 				on p.id = m.publisher_id 
 		";
 
@@ -120,6 +120,8 @@
 	
 	function fetchAuthorPublisher($table) {
 		$connection = $connection ?? null;
+		$table = 'library_'.$table; // did this because joined databases on server
+		
 		//connect the database
 		//include("dbconnect.php");
 		if ($connection){

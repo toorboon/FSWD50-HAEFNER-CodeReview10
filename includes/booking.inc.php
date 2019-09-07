@@ -19,7 +19,7 @@
 	$booked_media_id = $_POST["media_id"];
 	$user_id = $_SESSION["userId"];
 
-	$sql_select = "SELECT * FROM media WHERE id = ".$booked_media_id;
+	$sql_select = "SELECT * FROM library_media WHERE id = ".$booked_media_id;
 
 	$result = mysqli_query($conn, $sql_select);
 	$result_set = mysqli_fetch_array($result);
@@ -36,7 +36,7 @@
 	}
 
 	$sql_update = "
-		UPDATE media ";
+		UPDATE library_media ";
 
 	$sql_update .= "
 		SET user_id = ".$user_id." ";
@@ -45,7 +45,7 @@
 		WHERE id = ".$booked_media_id.";";
 
 	$sql_update .= "
-		UPDATE media ";
+		UPDATE library_media ";
 
 	$sql_update .= "
 		SET status = '".$status."' ";

@@ -23,7 +23,7 @@
 	 		SELECT 
 	 			id,
 	 			name
-	 		FROM author;';
+	 		FROM library_author;';
 
 	 	$return = mysqli_query($conn, $sql_read_author);
 		

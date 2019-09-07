@@ -45,7 +45,7 @@ class Media {
 		}
 
 		//query for writing into the database
-		$sql_insert_media = "INSERT INTO media (
+		$sql_insert_media = "INSERT INTO library_media (
 			title, 
 			image, 
 			isbn, 
@@ -92,7 +92,7 @@ class Media {
 
 		//query for writing into the database
 		$sql_delete = "
-			DELETE FROM media 
+			DELETE FROM library_media 
 			";
 
 		$sql_delete .= "
@@ -126,7 +126,7 @@ class Media {
 			SELECT * 
 			";
 		$sql_select_one .= "
-			FROM media 
+			FROM library_media 
 			";
 		$sql_select_one .= "
 			WHERE id = ".$row_id;
@@ -160,7 +160,7 @@ class Media {
 			$image_condition = "image = '$this->image',";
 		}
 		$sql_update = "
-			UPDATE media 
+			UPDATE library_media 
 			";
 
 		$sql_update .= "

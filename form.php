@@ -23,7 +23,7 @@
 			$type = $new_session[0]["type"] ?? NULL;
 			$status = $new_session[0]["status"] ?? NULL;
 			$author_id = $new_session[0]["author_id"] ?? 'Test me';
-			$publisher_id = $new_session[0]["publisher_id"];
+			//$publisher_id = $new_session[0]["publisher_id"];
 			// $address = $new_session[0]["address"] ?? "Horstgasse 1, 1210, Wien";
 			// $size = $new_session[0]["size"] ?? NULL;
 			
